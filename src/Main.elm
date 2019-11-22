@@ -46,15 +46,16 @@ view model =
     div
         [ style "font-family" "Share Tech Mono"
         , style "letter-spacing" "-1 px"
-        , style "line-height" "13px"
+        , style "line-height" "10px"
+        , style "font-size" "13px"
         ]
         [ div [] [ text (String.fromFloat model.delta) ]
         , div []
-            (List.range 1 70
+            (List.range 0 70
                 |> List.map
                     (\y ->
                         div []
-                            (List.range 1 300
+                            (List.range 0 280
                                 |> List.map (\x -> oneCell model.t x y)
                             )
                     )
@@ -69,41 +70,48 @@ oneCell t x y =
 
 xyToF : Float -> Int -> Int -> Int
 xyToF t x y =
-    (floor t // 99) * x * y // 7
+    let
+        tt =
+            floor t
+
+        yy =
+            y
+    in
+    (tt // 99) * x * yy // 7
 
 
 floatToCell : Int -> String
 floatToCell f =
     case modBy 10 f of
         0 ->
-            "="
+            "®"
 
         1 ->
-            "-"
+            "."
 
         2 ->
-            "I"
+            ":"
 
         3 ->
-            "O"
+            "+"
 
         4 ->
-            "0"
+            "o"
 
         5 ->
-            "H"
+            "x"
 
         6 ->
-            "#"
+            "O"
 
         7 ->
-            "M"
+            "X"
 
         8 ->
             "N"
 
         9 ->
-            "V"
+            "M"
 
         _ ->
             " "
