@@ -30,9 +30,9 @@ type Msg
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update msg _ =
+update msg model =
     case msg of
-        TimeDelta delta -> ( delta, Cmd.none)
+        TimeDelta delta -> ( delta + model, Cmd.none)
             
     
 
@@ -46,7 +46,7 @@ view : Model -> Html Msg
 view t =
     div [ style "font-family" "Share Tech Mono", 
             style "letter-spacing" "-1 px",
-            style "line-height" "12px"] 
+            style "line-height" "13px"] 
     (  List.range 1 70
     |> List.map (\y -> 
         div [] (List.range 1 300
@@ -67,8 +67,8 @@ floatToCell f =
         (i, _) = f |> String.fromFloat |> String.uncons |> Maybe.withDefault ('0', "")
     in
         case i of
-            '0' ->  " "
-            '1' ->  " "
+            '0' ->  "="
+            '1' ->  "-"
             '2' ->  "I"
             '3' ->  "O"    
             '4' ->  "0"    
@@ -77,5 +77,5 @@ floatToCell f =
             '7' ->  "M"    
             '8' ->  "N"    
             '9' ->  "V"    
-            _ -> " "
+             _ -> " "
         
