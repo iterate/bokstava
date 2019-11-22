@@ -50,9 +50,10 @@ view model =
         , style "letter-spacing" "-1 px"
         , style "line-height" "10px"
         , style "font-size" "13px"
+        , style "color" "darkslategray"
         ]
-        [ div [] [ text (String.fromFloat model.delta) ]
-        , Html.pre []
+        [ div [] [ text ("BOKSTAVA DENTATA " ++ String.fromFloat model.delta ++ " " ++ String.fromFloat model.t) ]
+        , Html.pre [ style "font-family" "Share Tech Mono", style "font-size" "13px" ]
             [ text
                 ((List.range 0 70
                     |> List.map
@@ -63,7 +64,17 @@ view model =
                     |> String.join "\n"
                 )
             ]
+        , Html.pre [ style "font-family" "Share Tech Mono" ] [ text (sampleCell model.t ++ " " ++ sampleNum model.t) ]
         ]
+
+
+sampleNum t =
+    String.padRight 19 ' ' (String.fromFloat (calc2 t 0 0))
+
+
+sampleCell : Float -> String
+sampleCell t =
+    oneCell t 0 0
 
 
 oneCell : Float -> Int -> Int -> String
@@ -88,7 +99,7 @@ calc2 t x y =
             toFloat y
 
         xx =
-            cos (fMod 360 (xf / (8 + fMod 1000 (t / 1000)) + t / 1000))
+            cos (fMod 360 (xf / (8 + fMod 1000 (t / 1000)) + t / 1000 + (yf / 100) + 1))
 
         yy =
             cos (fMod 360 (yf / (8 + fMod 100 (t / 100)) + t / 1000))
@@ -106,10 +117,10 @@ calc1 t x y =
             toFloat y
 
         xx =
-            cos (fMod 360 (xf / 8 + t / 1000))
+            sin (fMod 360 (xf / 8 + t / 1000))
 
         yy =
-            cos (fMod 360 (yf / 8 + t / 1000))
+            sin (fMod 360 (yf / 8 + t / 1000))
     in
     xx + yy
 
@@ -142,10 +153,13 @@ render3 : Float -> String
 render3 f =
     let
         a =
-            f * 6
+            f / 2 |> abs
+
+        b =
+            a * 6
 
         n =
-            round a
+            round b
     in
     case n of
         0 ->
