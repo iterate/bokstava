@@ -51,21 +51,22 @@ view model =
         ]
         [ div [] [ text (String.fromFloat model.delta) ]
         , div []
-            (List.range 0 70
-                |> List.map
-                    (\y ->
-                        div []
-                            (List.range 0 280
-                                |> List.map (\x -> oneCell model.t x y)
-                            )
-                    )
-            )
+            [ text
+                ((List.range 0 70
+                    |> List.map
+                        (\y ->
+                            List.range 0 280 |> List.map (\x -> oneCell model.t x y) |> String.join ""
+                        )
+                 )
+                    |> String.join " "
+                )
+            ]
         ]
 
 
-oneCell : Float -> Int -> Int -> Html msg
+oneCell : Float -> Int -> Int -> String
 oneCell t x y =
-    xyToF t x y |> floatToCell |> text
+    xyToF t x y |> floatToCell
 
 
 xyToF : Float -> Int -> Int -> Int
